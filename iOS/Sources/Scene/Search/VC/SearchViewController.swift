@@ -55,6 +55,7 @@ final class SearchViewController: UIViewController {
         collectionView.register(cell: RecipeCollectionViewCell.self)
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.keyboardDismissMode = .onDrag
         return collectionView
     }()
     
@@ -152,11 +153,19 @@ final class SearchViewController: UIViewController {
             .disposed(by: disposeBag)
         
         collectionView.rx.itemSelected
-            .bind { indexPath in
+            .bind { [weak self] indexPath in
+               
                 let recipesDetailViewController = RecipesDetailViewController()
-                self.navigationController?.pushViewController(recipesDetailViewController, animated: true)
+                recipesDetailViewController.title = self?.searchData[indexPath.row].title
+                recipesDetailViewController.productName = self?.searchData[indexPath.row].productName ?? ""
+                recipesDetailViewController.detail = self?.searchData[indexPath.row].detail ?? ""
+                recipesDetailViewController.pictureURL = self?.searchData[indexPath.row].picUrl ?? ""
+                recipesDetailViewController.totalCount = self?.searchData[indexPath.row].totalCount ?? 0
+                recipesDetailViewController.timer = self?.searchData[indexPath.row].timer ?? []
+                self?.navigationController?.pushViewController(recipesDetailViewController, animated: true)
             }
             .disposed(by: disposeBag)
+                
     }
 }
 
