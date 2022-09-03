@@ -33,7 +33,7 @@ final class CategoryDetailViewController: UIViewController {
         $0.text = "한식"
     }
     private let backButton = UIButton().then {
-        $0.setImage(UNITHONTeam6IOSAsset.Assets.iconBack.image, for: .normal)
+        $0.setImage(UNITHONTeam6IOSAsset.Assets.iconArrowBack.image, for: .normal)
         
     }
     private let searchButton = UIButton().then {
@@ -108,9 +108,9 @@ final class CategoryDetailViewController: UIViewController {
         }
         
         backButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(14)
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(7)
-            $0.height.width.equalTo(44)
+            $0.width.height.equalTo(30)
         }
         
         searchButton.snp.makeConstraints {

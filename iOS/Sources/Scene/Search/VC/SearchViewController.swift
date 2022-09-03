@@ -40,6 +40,12 @@ final class SearchViewController: UIViewController {
         $0.searchTextField.font = ProjectPretendardFont.medium.font(size: 14)
         $0.searchTextField.backgroundColor = .clear
         $0.backgroundImage = UIImage()
+        $0.searchTextField.addRightPadding(width: 50)
+        $0.searchTextField.clearButtonMode = .never
+    }
+    
+    private let searchIconImageView = UIImageView().then {
+        $0.image = ProjectImage.iconSearchWhite.image
     }
     
     private lazy var collectionView: UICollectionView = {
@@ -67,11 +73,14 @@ final class SearchViewController: UIViewController {
     
     private func setUI() {
         view.backgroundColor = .backgroudNavy
+        searchBar.searchTextField.addRightPadding()
+        
     }
     
     private func setLayout() {
         self.view.addSubviews([navigationView, searchBar, collectionView])
         navigationView.addSubviews([backButton, navigationTitleLabel])
+        searchBar.searchTextField.addSubviews([searchIconImageView])
         
         navigationView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -98,6 +107,12 @@ final class SearchViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom).offset(14)
             $0.leading.bottom.trailing.equalToSuperview()
+        }
+        
+        searchIconImageView.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(20)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(24)
         }
     }
     

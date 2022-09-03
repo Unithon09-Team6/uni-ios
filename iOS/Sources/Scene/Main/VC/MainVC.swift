@@ -39,7 +39,7 @@ final class MainVC: UIViewController {
     }
     
     private let searchIcon = UIImageView().then {
-        $0.image = UNITHONTeam6IOSAsset.Assets.iconSearch.image
+        $0.image = UNITHONTeam6IOSAsset.Assets.iconSearchWhite.image
     }
     
     private lazy var collectionView: UICollectionView = {
@@ -134,7 +134,6 @@ final class MainVC: UIViewController {
     @objc
     private func searchViewDidTap() {
         let searchViewConroller = SearchViewController()
-        print("zz")
         self.navigationController?.pushViewController(searchViewConroller, animated: true)
     }
 }
