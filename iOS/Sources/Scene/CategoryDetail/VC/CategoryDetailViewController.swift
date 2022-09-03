@@ -153,6 +153,13 @@ final class CategoryDetailViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        recipeCollectionView.rx.itemSelected
+            .bind { indexPath in
+                let recipesDetailViewController = RecipesDetailViewController()
+                self.navigationController?.pushViewController(recipesDetailViewController, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
         searchButton.rx.tap
             .withUnretained(self)
             .bind { _ in

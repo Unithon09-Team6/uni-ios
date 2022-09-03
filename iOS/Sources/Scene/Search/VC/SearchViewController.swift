@@ -150,6 +150,13 @@ final class SearchViewController: UIViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .bind { indexPath in
+                let recipesDetailViewController = RecipesDetailViewController()
+                self.navigationController?.pushViewController(recipesDetailViewController, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
