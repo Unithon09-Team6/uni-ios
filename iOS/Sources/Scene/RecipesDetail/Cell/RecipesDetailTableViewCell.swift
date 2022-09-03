@@ -16,7 +16,7 @@ class RecipesDetailTableViewCell: BaseTableViewCell {
     }
     
     let iconImageView = UIImageView().then {
-        $0.image = UNITHONTeam6IOSAsset.Assets.iconINFORM.image
+        $0.image = UNITHONTeam6IOSAsset.Assets.iconInform.image
     }
     let contentLabel = UILabel().then {
         $0.textColor = .white

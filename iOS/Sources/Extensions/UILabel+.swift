@@ -9,24 +9,26 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import AudioToolbox
+
+
+func timerToString(_ countDown: Int) -> PublishRelay<Int> {
+    let nowCount = PublishRelay<Int>()
+    let countDown = countDown
+    Observable<Int>.timer(.seconds(0), period: .seconds(1), scheduler: MainScheduler.instance)
+            .take(countDown+1)
+            .subscribe(onNext: { timePassed in
+                let count = countDown - timePassed
+                nowCount.accept(count)
+            }, onCompleted: {
+                AudioServicesPlaySystemSound(1009)
+                print("onCompleted")
+            })
+            .disposed(by: Const.disposeBag)
+    return nowCount
+}
 
 extension UILabel {
-    
-    func timerToString(_ countDown: Int) -> PublishRelay<Int> {
-        let nowCount = PublishRelay<Int>()
-        let countDown = countDown
-        Observable<Int>.timer(.seconds(0), period: .seconds(1), scheduler: MainScheduler.instance)
-                .take(countDown+1)
-                .subscribe(onNext: { timePassed in
-                    let count = countDown - timePassed
-                    nowCount.accept(count)
-                    print(count)
-                }, onCompleted: {
-                    print("onCompleted")
-                })
-                .disposed(by: Const.disposeBag)
-        return nowCount
-    }
     
     /// UILabel 행간설정
     func setLineSpacing(lineSpacing: CGFloat) {
