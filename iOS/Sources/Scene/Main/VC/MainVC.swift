@@ -16,10 +16,7 @@ final class MainVC: UIViewController {
     
     private let disposeBag = DisposeBag()
     
-    let mainCategories = [MainCategory(description: "한국인이라면 역시", name: "한식", image: UNITHONTeam6IOSAsset.Assets.imageKorea.image, color: .categoryPurpleLight, number: 0),
-                          MainCategory(description: "집에서 쉽게 해먹자!", name: "중식", image: UNITHONTeam6IOSAsset.Assets.imageJapan.image, color: .categoryPinkLight, number: 1),
-                          MainCategory(description: "난 지금 양식이 땡긴다", name: "양식", image: UNITHONTeam6IOSAsset.Assets.imageWesternStyle.image, color: .categoryYellowLight, number: 2),
-                          MainCategory(description: "내 손안의 이자카야", name: "일식", image: UNITHONTeam6IOSAsset.Assets.imageJapan.image, color: .categoryBlueLight, number: 3)]
+    let mainCategories = MainCategory.mainCategories
     
     private let titleLabel = UILabel().then {
         $0.text = "오늘도\n실패하지않는 레시피 ✌🏻"
