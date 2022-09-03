@@ -16,6 +16,7 @@ final class SearchViewController: UIViewController {
     typealias ProjectImage = UNITHONTeam6IOSAsset.Assets
     typealias ProjectPretendardFont = UNITHONTeam6IOSFontFamily.Pretendard
     
+    
     private let navigationView = UIView()
     private let backButton = UIButton().then {
         $0.setImage(ProjectImage.iconArrowBack.image, for: .normal)
@@ -36,6 +37,16 @@ final class SearchViewController: UIViewController {
         $0.backgroundImage = UIImage()
     }
     
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(
+            frame: self.view.bounds,
+            collectionViewLayout: createRecipeLayout())
+        collectionView.register(cell: RecipeCollectionViewCell.self)
+        collectionView.backgroundColor = .clear
+        collectionView.showsVerticalScrollIndicator = false
+        return collectionView
+    }()
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
@@ -43,6 +54,7 @@ final class SearchViewController: UIViewController {
 
         setUI()
         setLayout()
+        setCollectionView()
     }
     
     // MARK: - Function
@@ -52,7 +64,7 @@ final class SearchViewController: UIViewController {
     }
     
     private func setLayout() {
-        self.view.addSubviews([navigationView, searchBar])
+        self.view.addSubviews([navigationView, searchBar, collectionView])
         navigationView.addSubviews([backButton, navigationTitleLabel])
         
         navigationView.snp.makeConstraints {
@@ -76,6 +88,49 @@ final class SearchViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(21)
             $0.height.equalTo(50)
         }
+        
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom)
+            $0.leading.bottom.trailing.equalToSuperview()
+        }
+    }
+    
+    private func setCollectionView() {
+        collectionView.dataSource = self
     }
 
+}
+
+// MARK: - CollectionView
+
+extension SearchViewController {
+    
+    private func createRecipeLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(155/333),
+            heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalWidth(224/333))
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .flexible(10)
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 23
+        section.contentInsets = NSDirectionalEdgeInsets(top: 27, leading: 21, bottom: 27, trailing: 21)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+}
+
+extension SearchViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Const.Identifier.RecipeCollectionViewCell, for: indexPath) as? RecipeCollectionViewCell else { fatalError() }
+        return cell
+    }
 }
