@@ -18,6 +18,16 @@ final class MainVC: UIViewController {
     
     let mainCategories = MainCategory.mainCategories
     
+    private let logoImageview = UIImageView().then {
+        $0.image = UNITHONTeam6IOSAsset.Assets.imgSplashLogo.image
+    }
+    
+    private let appNameLabel = UILabel().then {
+        $0.text = "FOODCLOCK"
+        $0.font = UNITHONTeam6IOSFontFamily.Pretendard.medium.font(size: 15)
+        $0.textColor = .white
+    }
+    
     private let titleLabel = UILabel().then {
         $0.text = "오늘도\n실패하지않는 레시피 ✌🏻"
         $0.numberOfLines = 2
@@ -94,11 +104,22 @@ final class MainVC: UIViewController {
     
     private func setLayout() {
         
-        self.view.addSubviews([titleLabel, searchView, collectionView])
+        self.view.addSubviews([titleLabel, searchView, collectionView, appNameLabel, logoImageview])
         searchView.addSubviews([searchLabel, searchIcon])
         
+        logoImageview.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(19)
+            $0.leading.equalToSuperview().inset(24)
+            $0.width.height.equalTo(30)
+        }
+        
+        appNameLabel.snp.makeConstraints {
+            $0.leading.equalTo(logoImageview.snp.trailing).offset(8)
+            $0.bottom.equalTo(logoImageview.snp.bottom)
+        }
+        
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(70)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(84)
             $0.height.equalTo(70)
             $0.leading.equalToSuperview().inset(25)
         }
