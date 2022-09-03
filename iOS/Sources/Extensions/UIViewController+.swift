@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 extension UIViewController {
     
@@ -21,6 +22,20 @@ extension UIViewController {
     @objc func hideKeyboard() {
         view.endEditing(true)
     }
+    
+    func showToast(message : String, font: UIFont) {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+            let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 150, y: self.view.frame.size.height-100, width: 300, height: 35))
+            toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+            toastLabel.textColor = UIColor.white
+            toastLabel.font = font
+            toastLabel.textAlignment = .center;
+            toastLabel.text = message
+            toastLabel.alpha = 1.0
+            toastLabel.layer.cornerRadius = 15;
+            toastLabel.clipsToBounds = true
+            self.view.addSubview(toastLabel)
+            UIView.animate(withDuration: 3.0, delay: 0.2, options: .curveEaseOut, animations: { toastLabel.alpha = 0.0 }, completion: {(isCompleted) in toastLabel.removeFromSuperview() }) }
     
     /// 취소와 확인이 뜨는 UIAlertController
     func makeRequestAlert(title : String,
