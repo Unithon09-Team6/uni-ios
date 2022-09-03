@@ -17,8 +17,8 @@ final class CategoryDetailViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     var detailCategories: [Subs]?
-    var selected: Int = 0
-    var recipies: ResponseSearch?
+    var selectedSubCategory: Int = 0
+    var recipies: [Recipes]?
     
     /// 현재 큰 카테고리
     ///  0: 한식, 1: 중식, 2:양식, 3:일식
@@ -140,7 +140,14 @@ final class CategoryDetailViewController: UIViewController {
         
         detailCategoryCollectionView.rx.itemSelected
             .bind { [weak self] indexPath in
-                self?.selected = indexPath.item
+                self?.selectedSubCategory = indexPath.item
+                if let detailCategories = self?.detailCategories {
+                    if indexPath.item == 0 {
+                        self?.getAllCategory(category: self?.nowCategory ?? 0)
+                    } else {
+                        self?.getSubCategoryRecipies(subCategoryID: detailCategories[indexPath.item]._id)
+                    }
+                }
                 self?.detailCategoryCollectionView.reloadData()
             }
             .disposed(by: disposeBag)
@@ -162,12 +169,12 @@ extension CategoryDetailViewController {
             heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize (
-            widthDimension: .absolute(75),
+            widthDimension: .fractionalWidth(75/375),
             heightDimension: .absolute(30))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 11
+        section.interGroupSpacing = UIScreen.main.bounds.width * (11/375)
         section.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 21, bottom: 13, trailing: 21)
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
@@ -198,7 +205,7 @@ extension CategoryDetailViewController: UICollectionViewDataSource {
             return detailCategories?.count ?? 0
         }
         else if collectionView == recipeCollectionView {
-            return recipies?.list.count ?? 0
+            return recipies?.count ?? 0
         }
         else {
             return 0
@@ -210,14 +217,14 @@ extension CategoryDetailViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Const.Identifier.DetailCategoryCollectionViewCell, for: indexPath) as? DetailCategoryCollectionViewCell else { fatalError() }
             if let detailCategories = detailCategories {
                 cell.setData(category: detailCategories[indexPath.item].subCategory,
-                             isSelected: selected == indexPath.item)
+                             isSelected: selectedSubCategory == indexPath.item)
             }
             return cell
         }
         else if collectionView == recipeCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Const.Identifier.RecipeCollectionViewCell, for: indexPath) as? RecipeCollectionViewCell else { fatalError() }
             if let recipies = recipies {
-                cell.setData(recipe: recipies.list[indexPath.item])
+                cell.setData(recipe: recipies[indexPath.item])
             }
             
             return cell
@@ -242,7 +249,7 @@ extension CategoryDetailViewController {
                         fatalError()
                     }
                     print("data", data)
-                    self?.recipies = data
+                    self?.recipies = data.list
                     self?.recipeCollectionView.reloadData()
                 case .failure(let error):
                     print(error)
@@ -263,6 +270,25 @@ extension CategoryDetailViewController {
                     print("data", data)
                     self?.detailCategories = [Subs(_id: "all", category: 1000, subCategory: "전체")] + data
                     self?.detailCategoryCollectionView.reloadData()
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func getSubCategoryRecipies(subCategoryID: String) {
+        API.getSubCategory(subCategoryID).request()
+            .subscribe { [weak self] event in
+                switch event {
+                case .success(let response):
+                    print(response.data)
+                    guard let data = try? JSONDecoder().decode([Recipes].self, from: response.data) else {
+                       fatalError()
+                    }
+                    self?.recipies = data
+                    self?.recipeCollectionView.reloadData()
+                  
                 case .failure(let error):
                     print(error)
                 }
