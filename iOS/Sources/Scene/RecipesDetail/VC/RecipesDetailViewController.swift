@@ -8,6 +8,9 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 class RecipesDetailViewController: BaseViewController {
     var recipetitle = ""
     var productName = ""
@@ -19,11 +22,12 @@ class RecipesDetailViewController: BaseViewController {
     private let navigationBarView = UIView()
     
     private let backButton = UIButton().then {
-        $0.setImage(UNITHONTeam6IOSAsset.Assets.iconBack.image, for: .normal)
+        $0.setImage(UNITHONTeam6IOSAsset.Assets.iconArrowBack.image, for: .normal)
     }
     
     private let scrollView = UIScrollView().then {
         $0.backgroundColor = .clear
+        $0.showsVerticalScrollIndicator = false
     }
     
     private let contentView = UIView().then {
@@ -92,10 +96,10 @@ class RecipesDetailViewController: BaseViewController {
     
     let startButton = UIButton().then {
         $0.setTitleColor(.white, for: .normal)
-        $0.setTitle("이 래시피로 요리하기", for: .normal)
+        $0.setTitle("이 타이머로 요리하기", for: .normal)
+        $0.titleLabel?.font = UNITHONTeam6IOSFontFamily.Pretendard.semiBold.font(size: 18)
         $0.backgroundColor = .categoryPurpleLight
         $0.layer.cornerRadius = 27
-        
     }
     
     override func configureUI() {
@@ -150,9 +154,9 @@ class RecipesDetailViewController: BaseViewController {
         }
         
         backButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(14)
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(0)
-            $0.height.width.equalTo(40)
+            $0.width.height.equalTo(30)
         }
         
         imageView.snp.makeConstraints {
@@ -244,7 +248,7 @@ extension RecipesDetailViewController: UITableViewDelegate, UITableViewDataSourc
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Const.Identifier.RecipesDetailTableViewCell, for: indexPath) as? RecipesDetailTableViewCell else { fatalError() }
         cell.contentLabel.text = timer[indexPath.row].text
         if timer[indexPath.row].sec % 3600 / 60 == 0  && timer[indexPath.row].sec % 3600 % 60 == 0 {
-            cell.timerLabel.text = "시간 없음"
+            cell.timerLabel.text = "-"
         }
         else if timer[indexPath.row].sec % 3600 / 60 == 0 {
             cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) % 60)초"
