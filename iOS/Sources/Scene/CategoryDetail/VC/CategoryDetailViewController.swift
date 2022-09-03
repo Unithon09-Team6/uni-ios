@@ -35,12 +35,23 @@ final class CategoryDetailViewController: UIViewController {
     }
     
     private lazy var detailCategoryCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: createCategoryLayout())
+        let collectionView = UICollectionView(
+            frame: self.view.bounds,
+            collectionViewLayout: createCategoryLayout())
         collectionView.register(cell: DetailCategoryCollectionViewCell.self)
         collectionView.backgroundColor = .clear
         return collectionView
     }()
     
+    private lazy var recipeCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(
+            frame: self.view.bounds,
+            collectionViewLayout: createRecipeLayout())
+        collectionView.register(cell: RecipeCollectionViewCell.self)
+        collectionView.backgroundColor = .clear
+        collectionView.showsVerticalScrollIndicator = false
+        return collectionView
+    }()
     
     // MARK: - LifeCycle
     
@@ -71,7 +82,7 @@ final class CategoryDetailViewController: UIViewController {
     
     private func setLayout() {
         
-        view.addSubviews([navigationBarView, detailCategoryCollectionView])
+        view.addSubviews([navigationBarView, detailCategoryCollectionView, recipeCollectionView])
         navigationBarView.addSubviews([navigationTitleLabel, backButton, searchButton])
         
         navigationBarView.snp.makeConstraints {
@@ -102,6 +113,11 @@ final class CategoryDetailViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
         }
         
+        recipeCollectionView.snp.makeConstraints {
+            $0.top.equalTo(detailCategoryCollectionView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
     }
     
     private func bind() {
@@ -115,6 +131,7 @@ final class CategoryDetailViewController: UIViewController {
     
     private func setCollectionView() {
         detailCategoryCollectionView.dataSource = self
+        recipeCollectionView.dataSource = self
     }
 }
 
@@ -138,12 +155,33 @@ extension CategoryDetailViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
+    
+    private func createRecipeLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(153/333),
+            heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalWidth(224/333))
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .fixed(23)
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 23
+        section.contentInsets = NSDirectionalEdgeInsets(top: 27, leading: 21, bottom: 27, trailing: 21)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
 }
 
 extension CategoryDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == detailCategoryCollectionView {
             return detailCategories.count
+        }
+        else if collectionView == recipeCollectionView {
+            return 10
         }
         else {
             return 0
@@ -155,6 +193,11 @@ extension CategoryDetailViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Const.Identifier.DetailCategoryCollectionViewCell, for: indexPath) as? DetailCategoryCollectionViewCell else { fatalError() }
             cell.setData(category: detailCategories[indexPath.item],
                          isSelected: selected == indexPath.item)
+            return cell
+        }
+        else if collectionView == recipeCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Const.Identifier.RecipeCollectionViewCell, for: indexPath) as? RecipeCollectionViewCell else { fatalError() }
+            cell.setData()
             return cell
         }
         else {
