@@ -128,6 +128,13 @@ final class SearchViewController: UIViewController {
                 }
             }
             .disposed(by: disposeBag)
+        
+        backButton.rx.tap
+            .withUnretained(self)
+            .subscribe { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 }
 

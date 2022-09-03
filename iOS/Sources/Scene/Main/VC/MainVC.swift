@@ -29,6 +29,7 @@ final class MainVC: UIViewController {
     private let searchView = UIView().then {
         $0.cornerRadius = 25
         $0.backgroundColor = .searchBarBackgroudNavy
+        $0.isUserInteractionEnabled = true
     }
     
     private var searchLabel = UILabel().then {
@@ -66,11 +67,17 @@ final class MainVC: UIViewController {
         
         bind()
         setUI()
+        setGesture()
         setLayout()
         setCollectionView()
     }
     
     // MARK: - Function
+    
+    private func setGesture() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(searchViewDidTap))
+        searchView.addGestureRecognizer(gesture)
+    }
     
     private func bind() {
         collectionView.rx.itemSelected
@@ -122,6 +129,13 @@ final class MainVC: UIViewController {
     
     private func setCollectionView() {
         collectionView.dataSource = self
+    }
+    
+    @objc
+    private func searchViewDidTap() {
+        let searchViewConroller = SearchViewController()
+        print("zz")
+        self.navigationController?.pushViewController(searchViewConroller, animated: true)
     }
 }
 

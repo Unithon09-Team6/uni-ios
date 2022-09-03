@@ -152,6 +152,13 @@ final class CategoryDetailViewController: UIViewController {
                 self?.detailCategoryCollectionView.reloadData()
             }
             .disposed(by: disposeBag)
+        
+        searchButton.rx.tap
+            .withUnretained(self)
+            .bind { _ in
+                self.navigationController?.pushViewController(SearchViewController(), animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func setCollectionView() {
