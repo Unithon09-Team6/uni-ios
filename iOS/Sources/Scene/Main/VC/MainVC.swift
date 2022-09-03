@@ -33,6 +33,11 @@ final class MainVC: UIViewController {
         $0.font = UNITHONTeam6IOSFontFamily.Pretendard.medium.font(size: 14)
     }
     
+    private let searchIcon = UIImageView().then {
+       // $0.image = UIImage.init(asset: .Image)
+        $0.backgroundColor = .white
+    }
+    
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: createLayout())
         collectionView.register(cell: MainCategoryCollectionViewCell.self)
@@ -53,7 +58,7 @@ final class MainVC: UIViewController {
     private func setLayout() {
         
         self.view.addSubviews([titleLabel, searchView, collectionView])
-        searchView.addSubviews([searchLabel])
+        searchView.addSubviews([searchLabel, searchIcon])
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(70)
@@ -78,6 +83,11 @@ final class MainVC: UIViewController {
             $0.leading.equalTo(25)
         }
         
+        searchIcon.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(30)
+            $0.width.height.equalTo(22)
+        }
     }
     
     private func setCollectionView() {
