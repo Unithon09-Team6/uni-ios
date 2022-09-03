@@ -182,7 +182,7 @@ extension CategoryDetailViewController {
     
     private func createRecipeLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(153/333),
+            widthDimension: .fractionalWidth(155/333),
             heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(
@@ -190,7 +190,7 @@ extension CategoryDetailViewController {
             heightDimension: .fractionalWidth(224/333))
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(23)
+        group.interItemSpacing = .flexible(23)
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 23
         section.contentInsets = NSDirectionalEdgeInsets(top: 27, leading: 21, bottom: 27, trailing: 21)
