@@ -10,12 +10,17 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
+import Moya
 
 final class SearchViewController: UIViewController {
     
     typealias ProjectImage = UNITHONTeam6IOSAsset.Assets
     typealias ProjectPretendardFont = UNITHONTeam6IOSFontFamily.Pretendard
     
+    private let disposeBag = DisposeBag()
+    
+    var searchData: [Recipes] = []
     
     private let navigationView = UIView()
     private let backButton = UIButton().then {
@@ -52,6 +57,7 @@ final class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        bind()
         setUI()
         setLayout()
         setCollectionView()
@@ -90,7 +96,7 @@ final class SearchViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(searchBar.snp.bottom)
+            $0.top.equalTo(searchBar.snp.bottom).offset(14)
             $0.leading.bottom.trailing.equalToSuperview()
         }
     }
@@ -98,7 +104,31 @@ final class SearchViewController: UIViewController {
     private func setCollectionView() {
         collectionView.dataSource = self
     }
-
+    
+    private func bind() {
+        searchBar.rx.text
+            .compactMap { $0 }
+            .distinctUntilChanged()
+            .debounce(.milliseconds(400), scheduler: MainScheduler.instance)
+            .flatMap { [weak self] _ -> Single<Response> in
+                let text = self?.searchBar.text ?? ""
+                return API.searchRecipes(text, "").request()
+            }
+            .filter { $0.statusCode == 200 }
+            .subscribe { [weak self] event in
+                switch event {
+                case .next(let k):
+                    guard let data = try? JSONDecoder().decode(ResponseSearch.self, from: k.data) else {
+                        fatalError()
+                    }
+                    self?.searchData = data.list
+                    self?.collectionView.reloadData()
+                default:
+                    print("default")
+                }
+            }
+            .disposed(by: disposeBag)
+    }
 }
 
 // MARK: - CollectionView
@@ -126,11 +156,12 @@ extension SearchViewController {
 
 extension SearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return searchData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Const.Identifier.RecipeCollectionViewCell, for: indexPath) as? RecipeCollectionViewCell else { fatalError() }
+        cell.setData(recipe: searchData[indexPath.item])
         return cell
     }
 }
