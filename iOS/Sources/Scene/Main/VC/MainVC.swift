@@ -136,7 +136,7 @@ extension MainVC {
     private func createLayout() -> UICollectionViewLayout {
         
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(153/333),
+            widthDimension: .fractionalWidth(155/333),
             heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(
@@ -144,7 +144,7 @@ extension MainVC {
             heightDimension: .fractionalWidth(193/333))
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(23)
+        group.interItemSpacing = .flexible(10)
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 23
         let layout = UICollectionViewCompositionalLayout(section: section)
