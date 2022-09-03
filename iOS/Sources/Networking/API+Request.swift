@@ -76,7 +76,7 @@ extension API {
     private enum MoyaWrapper {
 
         static var provider: MoyaProvider<API.Wrapper> {
-            let plugins = Plugins(plugins: [])
+            let plugins = Plugins(plugins: [MoyaLoggingPlugin()])
 
             let configuration = URLSessionConfiguration.default
             configuration.timeoutIntervalForRequest = 30

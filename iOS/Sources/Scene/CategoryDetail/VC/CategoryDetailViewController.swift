@@ -73,6 +73,21 @@ final class CategoryDetailViewController: UIViewController {
         setUI()
         setLayout()
         setCollectionView()
+        
+        API.searchCategoryRecipes("0", "").request()
+            .subscribe { event in
+                switch event {
+                case .success(let response):
+                    print(response.data)
+                    guard let data = try? JSONDecoder().decode(ResponseSearch.self, from: response.data) else {
+                        return
+                    }
+                    print(data)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Function
