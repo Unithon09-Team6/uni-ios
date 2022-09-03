@@ -104,8 +104,6 @@ class RecipesDetailViewController: BaseViewController {
     
     override func configureUI() {
         view.backgroundColor = .backgroudNavy
-        
-        imageView.backgroundColor = .categoryPinkLight
         titleLabel.text = title
         productNameLabel.text = productName
         totalCountLabel.text = "총 소요시간 \(totalCount)초"
