@@ -1,5 +1,5 @@
 //
-//  BaseURL.swift
+//  TimerList.swift
 //  UNITHON-Team6-iOS
 //
 //  Created by 김대희 on 2022/09/03.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct UNIURL {
-    static let baseURL = "15.165.160.154:3000"
+struct timerList: Codable {
+    let text: String
+    let sec: String
 }
-

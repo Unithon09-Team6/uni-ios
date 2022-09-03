@@ -23,7 +23,6 @@ extension Project{
                     infoPlist: .file(path: Path("Support/Info.plist")),
                     sources: ["Sources/**"],
                     resources: ["Resources/**"],
-                    scripts: [.swiftlint],
                     dependencies: [
                         .project(target: "ThirdPartyLib", path: "../ThirdPartyLib")
                     ] + dependencies
