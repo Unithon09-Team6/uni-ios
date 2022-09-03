@@ -87,7 +87,7 @@ class RecipesDetailViewController: BaseViewController {
         $0.backgroundColor = .clear
         $0.isScrollEnabled = false
         $0.register(RecipesDetailTableViewCell.self, forCellReuseIdentifier: Const.Identifier.RecipesDetailTableViewCell)
-
+        
     }
     
     let startButton = UIButton().then {
@@ -95,7 +95,7 @@ class RecipesDetailViewController: BaseViewController {
         $0.setTitle("이 래시피로 요리하기", for: .normal)
         $0.backgroundColor = .categoryPurpleLight
         $0.layer.cornerRadius = 27
-
+        
     }
     
     override func configureUI() {
@@ -128,7 +128,7 @@ class RecipesDetailViewController: BaseViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
-
+        
     }
     
     override func setupConstraints() {
@@ -158,7 +158,7 @@ class RecipesDetailViewController: BaseViewController {
             $0.leading.trailing.equalTo(view).inset(14)
             $0.height.equalTo(54)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
-
+            
         }
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom).offset(30)
@@ -236,11 +236,21 @@ extension RecipesDetailViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Const.Identifier.RecipesDetailTableViewCell, for: indexPath) as? RecipesDetailTableViewCell else { fatalError() }
         cell.contentLabel.text = timer[indexPath.row].text
-        cell.timerLabel.text = "\(timer[indexPath.row].sec)초"
+        if timer[indexPath.row].sec % 3600 / 60 == 0  && timer[indexPath.row].sec % 3600 % 60 == 0 {
+            cell.timerLabel.text = "시간 없음"
+        }
+        else if timer[indexPath.row].sec % 3600 / 60 == 0 {
+            cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) % 60)초"
+        } else if timer[indexPath.row].sec % 3600 % 60 == 0 {
+            cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) / 60)분"
+        } else {
+            cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) / 60)분 \((timer[indexPath.row].sec % 3600) % 60)초"
+        }
+        //        (timer[indexPath.row].sec % 3600) / 60, (timer[indexPath.row].sec % 3600) % 60)
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.rowHeight
     }
-
+    
 }
