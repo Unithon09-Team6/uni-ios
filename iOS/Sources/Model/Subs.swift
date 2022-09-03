@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+struct Subs: Codable {
+    let _id: String
+    let category: Int
+    let subCategory: String
+}

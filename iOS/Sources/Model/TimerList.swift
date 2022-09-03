@@ -7,3 +7,8 @@
 //
 
 import Foundation
+
+struct timerList: Codable {
+    let text: String
+    let sec: String
+}

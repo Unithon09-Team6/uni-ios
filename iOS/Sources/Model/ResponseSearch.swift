@@ -7,3 +7,8 @@
 //
 
 import Foundation
+
+struct ResponseSearch: Codable {
+    let count: Int
+    let list: [Recipes]
+}
