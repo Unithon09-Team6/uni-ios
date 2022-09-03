@@ -110,7 +110,8 @@ final class MainVC: UIViewController {
         logoImageview.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).inset(19)
             $0.leading.equalToSuperview().inset(24)
-            $0.width.height.equalTo(30)
+            $0.height.equalTo(30)
+            $0.width.equalTo(36)
         }
         
         appNameLabel.snp.makeConstraints {
