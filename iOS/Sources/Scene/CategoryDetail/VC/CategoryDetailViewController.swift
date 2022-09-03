@@ -20,6 +20,10 @@ final class CategoryDetailViewController: UIViewController {
     var selected: Int = 0
     var recipies: ResponseSearch?
     
+    /// 현재 큰 카테고리
+    ///  0: 한식, 1: 중식, 2:양식, 3:일식
+    var nowCategory: Int?
+    
     // MARK: - Components
     
     private let navigationBarView = UIView()
@@ -60,7 +64,7 @@ final class CategoryDetailViewController: UIViewController {
     init(category: MainCategory) {
         super.init(nibName: nil, bundle: nil)
         navigationTitleLabel.text = category.name
-        
+        nowCategory = category.number
     }
     
     required init?(coder: NSCoder) {
@@ -74,8 +78,11 @@ final class CategoryDetailViewController: UIViewController {
         setUI()
         setLayout()
         setCollectionView()
-        getAllCategory(category: 0)
-        getSubCategory(category: 0)
+        if let nowCategory = nowCategory {
+            getAllCategory(category: nowCategory)
+            getSubCategory(category: nowCategory)
+        }
+        
     }
     
     // MARK: - Function
