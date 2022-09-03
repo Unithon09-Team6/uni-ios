@@ -40,6 +40,7 @@ final class CategoryDetailViewController: UIViewController {
             collectionViewLayout: createCategoryLayout())
         collectionView.register(cell: DetailCategoryCollectionViewCell.self)
         collectionView.backgroundColor = .clear
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -59,7 +60,6 @@ final class CategoryDetailViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         navigationTitleLabel.text = category.name
         
-        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -69,6 +69,7 @@ final class CategoryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bind()
         setUI()
         setLayout()
         setCollectionView()
@@ -117,7 +118,6 @@ final class CategoryDetailViewController: UIViewController {
             $0.top.equalTo(detailCategoryCollectionView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        
     }
     
     private func bind() {
@@ -125,6 +125,13 @@ final class CategoryDetailViewController: UIViewController {
             .withUnretained(self)
             .subscribe { owner, _ in
                 owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        detailCategoryCollectionView.rx.itemSelected
+            .bind { [weak self] indexPath in
+                self?.selected = indexPath.item
+                self?.detailCategoryCollectionView.reloadData()
             }
             .disposed(by: disposeBag)
     }

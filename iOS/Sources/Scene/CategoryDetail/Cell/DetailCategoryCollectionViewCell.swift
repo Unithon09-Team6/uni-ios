@@ -50,5 +50,6 @@ final class DetailCategoryCollectionViewCell: UICollectionViewCell {
     func setData(category: String, isSelected: Bool) {
         titleLabel.text = category
         bgView.backgroundColor = isSelected ? .purple583680 : .searchBarBackgroudNavy
+        titleLabel.textColor = isSelected ? .white : .gray9A97A0
     }
 }
