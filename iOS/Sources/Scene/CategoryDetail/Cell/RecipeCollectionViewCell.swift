@@ -58,8 +58,8 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
     }
     
     func setData(recipe: Recipes) {
-        titleLabel.text = recipe.title
-        descriptionLabel.text = recipe.detail
+        titleLabel.text = recipe.productName
+        descriptionLabel.text = recipe.title
         recipeImageView.image(url: recipe.picUrl)
         totalTimerLabel.text = "\(recipe.totalCount)"
     }

@@ -190,7 +190,7 @@ extension CategoryDetailViewController {
             heightDimension: .fractionalWidth(224/333))
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .flexible(23)
+        group.interItemSpacing = .flexible(10)
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 23
         section.contentInsets = NSDirectionalEdgeInsets(top: 27, leading: 21, bottom: 27, trailing: 21)

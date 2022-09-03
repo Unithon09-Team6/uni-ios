@@ -10,7 +10,7 @@ import Foundation
 
 struct Recipes: Codable {
     let _id: String
-   // let productName: String
+    let productName: String?
     let title: String
     let category: Int
     let subCategory: String
