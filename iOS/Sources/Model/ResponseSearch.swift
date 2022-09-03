@@ -1,5 +1,5 @@
 //
-//  BaseURL.swift
+//  ResponseSearch.swift
 //  UNITHON-Team6-iOS
 //
 //  Created by 김대희 on 2022/09/03.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct UNIURL {
-    static let baseURL = "15.165.160.154:3000"
+struct ResponseSearch: Codable {
+    let count: Int
+    let list: [Recipes]
 }
-
