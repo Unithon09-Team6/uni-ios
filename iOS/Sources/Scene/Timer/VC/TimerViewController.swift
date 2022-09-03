@@ -8,6 +8,10 @@
 
 import UIKit
 
+import SnapKit
+import Then
+import RxSwift
+
 
 class TimerViewController: BaseViewController {
     
@@ -35,7 +39,7 @@ class TimerViewController: BaseViewController {
     }
     
     private let detailImageView = UIImageView().then {
-        $0.image = UNITHONTeam6IOSAsset.Assets.iconInform.image
+        $0.image = UNITHONTeam6IOSAsset.Assets.iconINFORM.image
     }
     private let detailTitleLabel = UILabel().then {
         $0.textColor = .colorF4F4F4
@@ -157,7 +161,7 @@ class TimerViewController: BaseViewController {
         
         detailTitleLabel.snp.makeConstraints {
             $0.left.equalTo(detailImageView.snp.right).offset(6)
-            $0.right.equalTo(-10)
+            $0.right.equalToSuperview().inset(30)
             $0.top.bottom.equalTo(0).inset(24)
         }
         
@@ -203,6 +207,8 @@ class TimerViewController: BaseViewController {
             if publicCount == 0 {
                 publicNowCount = publicNowCount + 1
                 self.timeRemte(nowCount: publicNowCount)
+            } else {
+                self.showToast(message: "타이머가 종료되기 전까지는 넘어갈 수 없습니다", font: UNITHONTeam6IOSFontFamily.Pretendard.medium.font(size: 13))
             }
 
         }

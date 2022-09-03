@@ -106,7 +106,7 @@ class RecipesDetailViewController: BaseViewController {
         view.backgroundColor = .backgroudNavy
         titleLabel.text = title
         productNameLabel.text = productName
-        totalCountLabel.text = "총 소요시간 \(totalCount)초"
+        totalCountLabel.text = "총 소요시간 \(totalCount)분"
         detailTitleLabel.text = "준비 재료 : "
         timerListLabel.text = "타이머 리스트"
         detailContentLabel.text = detail
@@ -246,14 +246,14 @@ extension RecipesDetailViewController: UITableViewDelegate, UITableViewDataSourc
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Const.Identifier.RecipesDetailTableViewCell, for: indexPath) as? RecipesDetailTableViewCell else { fatalError() }
         cell.contentLabel.text = timer[indexPath.row].text
         if timer[indexPath.row].sec % 3600 / 60 == 0  && timer[indexPath.row].sec % 3600 % 60 == 0 {
-            cell.timerLabel.text = "-"
+            cell.timerLabel.text = "0:00"
         }
         else if timer[indexPath.row].sec % 3600 / 60 == 0 {
-            cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) % 60)초"
+            cell.timerLabel.text = "0:\((timer[indexPath.row].sec % 3600) % 60)"
         } else if timer[indexPath.row].sec % 3600 % 60 == 0 {
-            cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) / 60)분"
+            cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) / 60):00"
         } else {
-            cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) / 60)분 \((timer[indexPath.row].sec % 3600) % 60)초"
+            cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) / 60): \((timer[indexPath.row].sec % 3600) % 60)"
         }
         //        (timer[indexPath.row].sec % 3600) / 60, (timer[indexPath.row].sec % 3600) % 60)
         return cell
