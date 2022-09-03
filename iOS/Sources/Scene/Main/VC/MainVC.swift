@@ -10,8 +10,11 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
 
 final class MainVC: UIViewController {
+    
+    private let disposeBag = DisposeBag()
     
     let mainCategories = [MainCategory(description: "한국인이라면 역시", name: "한식", image: UIImage(), color: .categoryPurpleLight),
                           MainCategory(description: "집에서 쉽게 해먹자!", name: "중식", image: UIImage(), color: .categoryPinkLight),
@@ -50,11 +53,22 @@ final class MainVC: UIViewController {
         return collectionView
     }()
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        bind()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bind()
         setUI()
         setLayout()
         setCollectionView()
@@ -62,6 +76,16 @@ final class MainVC: UIViewController {
     
     // MARK: - Function
     
+    private func bind() {
+        collectionView.rx.itemSelected
+            .withUnretained(self)
+          //  .compactMap { $0 }
+            .bind { _ in
+                self.navigationController?.pushViewController(CategoryDetailViewController(category: MainCategory(description: "한국인이라면 역시", name: "한식", image: UIImage(), color: .categoryPurpleLight)), animated: true)
+            }
+            .disposed(by: disposeBag)
+    }
+  
     private func setUI() {
         self.view.backgroundColor = .backgroudNavy
     }
