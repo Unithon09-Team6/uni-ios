@@ -16,7 +16,7 @@ final class CategoryDetailViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
-    var detailCategories = ["전체", "메인요리", "국/찌개", "반찬"]
+    var detailCategories: [Subs]?
     var selected: Int = 0
     var recipies: ResponseSearch?
     
@@ -75,7 +75,7 @@ final class CategoryDetailViewController: UIViewController {
         setLayout()
         setCollectionView()
         getAllCategory(category: 0)
-        
+        getSubCategory(category: 0)
     }
     
     // MARK: - Function
@@ -188,7 +188,7 @@ extension CategoryDetailViewController {
 extension CategoryDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == detailCategoryCollectionView {
-            return detailCategories.count
+            return detailCategories?.count ?? 0
         }
         else if collectionView == recipeCollectionView {
             return recipies?.list.count ?? 0
@@ -201,8 +201,10 @@ extension CategoryDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == detailCategoryCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Const.Identifier.DetailCategoryCollectionViewCell, for: indexPath) as? DetailCategoryCollectionViewCell else { fatalError() }
-            cell.setData(category: detailCategories[indexPath.item],
-                         isSelected: selected == indexPath.item)
+            if let detailCategories = detailCategories {
+                cell.setData(category: detailCategories[indexPath.item].subCategory,
+                             isSelected: selected == indexPath.item)
+            }
             return cell
         }
         else if collectionView == recipeCollectionView {
@@ -210,7 +212,7 @@ extension CategoryDetailViewController: UICollectionViewDataSource {
             if let recipies = recipies {
                 cell.setData(recipe: recipies.list[indexPath.item])
             }
-           
+            
             return cell
         }
         else {
@@ -235,6 +237,25 @@ extension CategoryDetailViewController {
                     print("data", data)
                     self?.recipies = data
                     self?.recipeCollectionView.reloadData()
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func getSubCategory(category: Int) {
+        API.getSubCategoryList(("\(category)")).request()
+            .subscribe { [weak self] event in
+                switch event {
+                case .success(let response):
+                    print(response.data)
+                    guard let data = try? JSONDecoder().decode([Subs].self, from: response.data) else {
+                        fatalError()
+                    }
+                    print("data", data)
+                    self?.detailCategories = [Subs(_id: "all", category: 1000, subCategory: "전체")] + data
+                    self?.detailCategoryCollectionView.reloadData()
                 case .failure(let error):
                     print(error)
                 }
