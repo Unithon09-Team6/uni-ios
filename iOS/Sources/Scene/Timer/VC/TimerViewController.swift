@@ -70,6 +70,11 @@ class TimerViewController: BaseViewController {
         $0.font = PretendardFont.semiBold.font(size: 15)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        isCompliting = true
+    }
     
     override func configureUI() {
         view.backgroundColor = .backgroudNavy
@@ -97,7 +102,7 @@ class TimerViewController: BaseViewController {
         print(timer)
         print(timer.count)
 
-        let nowNumber = nowCount
+        var nowNumber = nowCount
         if nowNumber >= totalCount {
             self.makeOKAlert(title: "요리가 완료되었습니다!", message: "맛있게 드세요!", okAction: {_ in
                 print("완료")
@@ -108,6 +113,10 @@ class TimerViewController: BaseViewController {
         }
         timerToString(timer[nowNumber].sec).bind { count in
             self.publicCount = count
+            if self.isCompliting {
+                nowNumber = totalCount + 1
+                return
+            }
             if nowNumber > totalCount {
                 print("완료")
                 self.isCompliting = true
