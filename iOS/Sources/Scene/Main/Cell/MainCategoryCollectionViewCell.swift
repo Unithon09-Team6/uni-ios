@@ -28,9 +28,8 @@ final class MainCategoryCollectionViewCell: UICollectionViewCell {
         $0.font = UNITHONTeam6IOSFontFamily.Pretendard.bold.font(size: 22)
     }
     
-    private let foodImageView = UIImageView().then {
-        $0.backgroundColor = .white
-    }
+    private let foodImageView = UIImageView()
+    
     
     // MARK: - LifeCycle
     

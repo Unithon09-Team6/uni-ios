@@ -34,12 +34,11 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
     }
     
     private let timerImageView = UIImageView().then {
-        $0.backgroundColor = .categoryPinkLight
+        $0.image = UNITHONTeam6IOSAsset.Assets.imageClock.image
     }
     
     private let totalTimerLabel = UILabel().then {
         $0.textColor = .white
-        $0.text = "zz"
         $0.font = PretendardFont.semiBold.font(size: 12)
     }
     
@@ -61,7 +60,7 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
         titleLabel.text = recipe.productName
         descriptionLabel.text = recipe.title
         recipeImageView.image(url: recipe.picUrl)
-        totalTimerLabel.text = "\(recipe.totalCount)"
+        totalTimerLabel.text = "\(recipe.totalCount)분"
     }
     
     private func setLayout() {
