@@ -27,6 +27,30 @@ extension UILabel {
                 .disposed(by: Const.disposeBag)
         return nowCount
     }
+    
+    /// UILabel 행간설정
+    func setLineSpacing(lineSpacing: CGFloat) {
+        if let text = self.text {
+            let attributedStr = NSMutableAttributedString(string: text)
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = lineSpacing
+            attributedStr.addAttribute(NSAttributedString.Key.paragraphStyle, value: style, range: NSMakeRange(0, attributedStr.length))
+            self.attributedText = attributedStr
+        }
+    }
+    
+    func setLineSpacingWithChaining(lineSpacing: CGFloat) -> UILabel {
+        let label = self
+        if let text = self.text {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = lineSpacing
+            let attributes: [NSAttributedString.Key: Any] = [
+                .paragraphStyle: style
+            ]
+            label.attributedText = NSAttributedString(string: text, attributes: attributes)
+        }
+        return label
+    }
 
 }
 
