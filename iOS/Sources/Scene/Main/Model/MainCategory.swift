@@ -14,4 +14,5 @@ struct MainCategory {
     let name: String
     let image: UIImage
     let color: UIColor
+    let number: Int
 }

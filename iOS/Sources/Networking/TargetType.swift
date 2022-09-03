@@ -29,7 +29,8 @@ extension API {
         case .getSubCategoryList:
             return "/subs"
         case .getSubCategory:
-            return "/subs/id"
+//            return "/subs/id"
+            return "/recipes/search/sub-category"
         }
     }
     
@@ -67,7 +68,7 @@ extension API {
             
         case .getSubCategory(let category):
             let params: [String: Any] = [
-                "category": category,
+                "id": category,
             ]
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
             
