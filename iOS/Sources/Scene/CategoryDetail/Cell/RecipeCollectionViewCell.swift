@@ -23,6 +23,7 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
     
     private let recipeImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
     }
     
     private let descriptionLabel = UILabel().then {
@@ -81,12 +82,14 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
         
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(recipeImageView.snp.bottom).offset(14)
+            $0.height.equalTo(14)
             $0.leading.trailing.equalToSuperview().inset(12)
         }
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(5)
             $0.leading.trailing.equalToSuperview().inset(12)
+            $0.height.equalTo(18)
         }
         
         timerStackView.addArrangedSubview(timerImageView)
@@ -98,7 +101,7 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
         
         timerStackView.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(12)
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(12)
         }
     }
     
