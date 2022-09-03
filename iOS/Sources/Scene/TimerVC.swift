@@ -25,6 +25,11 @@ class TimerVC: BaseViewController {
     override func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(timerlabel)
+        timerToString(20)
+            .bind { int in
+                self.timerlabel.text = "\(int)"
+            }
+            .disposed(by: disposeBag)
     }
 
     override func setupConstraints() {
@@ -34,16 +39,32 @@ class TimerVC: BaseViewController {
     }
     let timePassed = 0
 
-    override func bind() {
-        let countDown = 15 // 15 seconds
+//    override func bind() {
+//        let countDown = 15 // 15 seconds
+//        Observable<Int>.timer(.seconds(0), period: .seconds(1), scheduler: MainScheduler.instance)
+//                .take(countDown+1)
+//                .subscribe(onNext: { timePassed in
+//                    let count = countDown - timePassed
+//                    self.timerlabel.text = "타이머2: \(count)초"
+//                    print(count)
+//                }, onCompleted: {
+//                    self.timerlabel.text = "다음 단계로 넘어가 주세요"
+//                })
+//                .disposed(by: disposeBag)
+//        }
+    func timerToString(_ countDown: Int) -> PublishRelay<Int> {
+        let nowCount = PublishRelay<Int>()
+        let countDown = countDown
         Observable<Int>.timer(.seconds(0), period: .seconds(1), scheduler: MainScheduler.instance)
                 .take(countDown+1)
                 .subscribe(onNext: { timePassed in
                     let count = countDown - timePassed
-                    self.timerlabel.text = "타이머2: \(count)초"
+                    nowCount.accept(count)
                     print(count)
                 }, onCompleted: {
-                    self.timerlabel.text = "다음 단계로 넘어가 주세요"
+                    print("onCompleted")
                 })
-        }
+                .disposed(by: disposeBag)
+        return nowCount
+    }
 }
