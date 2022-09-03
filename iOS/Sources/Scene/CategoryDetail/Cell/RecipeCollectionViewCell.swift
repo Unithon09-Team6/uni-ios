@@ -21,7 +21,9 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
         $0.clipsToBounds = true
     }
     
-    private let recipeImageView = UIImageView()
+    private let recipeImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+    }
     
     private let descriptionLabel = UILabel().then {
         $0.textColor = .colorE4E4E4
