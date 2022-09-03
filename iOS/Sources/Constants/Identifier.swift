@@ -13,6 +13,7 @@ extension Const {
     struct Identifier {
         
         static let MainCategoryCollectionViewCell = "MainCategoryCollectionViewCell"
+        static let DetailCategoryCollectionViewCell = "DetailCategoryCollectionViewCell"
     }
     
     
