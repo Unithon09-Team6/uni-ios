@@ -17,6 +17,7 @@ enum API {
     
     case searchCategoryRecipes(_ category: String, _ paging: String)
     
+    case getSubCategoryList(_ category: String)
     case getSubCategory(_ category: String)
 }
 

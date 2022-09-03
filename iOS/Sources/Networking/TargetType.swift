@@ -26,8 +26,10 @@ extension API {
             return "/recipes/search"
         case .searchCategoryRecipes:
             return "/recipes/search/category"
-        case .getSubCategory:
+        case .getSubCategoryList:
             return "/subs"
+        case .getSubCategory:
+            return "/subs/id"
         }
     }
     
@@ -42,27 +44,33 @@ extension API {
                 "id": id,
             ]
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-
+            
         case .searchRecipes(let target, let paging):
             let params: [String: Any] = [
                 "target": target,
                 "paging": paging,
             ]
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-
+            
         case .searchCategoryRecipes(let category, let paging):
             let params: [String: Any] = [
                 "category": category,
                 "paging": paging,
             ]
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-
+            
+        case .getSubCategoryList(let category):
+            let params: [String: Any] = [
+                "category": category,
+            ]
+            return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+            
         case .getSubCategory(let category):
             let params: [String: Any] = [
                 "category": category,
             ]
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-
+            
         }
     }
     
