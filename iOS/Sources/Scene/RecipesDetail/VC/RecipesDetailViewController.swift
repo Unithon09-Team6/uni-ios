@@ -128,7 +128,14 @@ class RecipesDetailViewController: BaseViewController {
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
-        
+        startButton.rx.tap
+            .withUnretained(self)
+            .subscribe { owner, _ in
+                let timerViewController = TimerViewController()
+                timerViewController.timer = self.timer
+                owner.navigationController?.pushViewController(timerViewController, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
     override func setupConstraints() {
