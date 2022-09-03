@@ -73,6 +73,16 @@ class TimerViewController: BaseViewController {
         timerBackView.addSubviews([clockImageView, timerLabel])
     }
     
+    override func bind() {
+        backButton.rx.tap
+            .withUnretained(self)
+            .subscribe { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
+    }
+
+    
     override func setupConstraints() {
         navigationBarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
