@@ -15,6 +15,8 @@ extension Const {
         static let MainCategoryCollectionViewCell = "MainCategoryCollectionViewCell"
         static let DetailCategoryCollectionViewCell = "DetailCategoryCollectionViewCell"
         static let RecipeCollectionViewCell = "RecipeCollectionViewCell"
+        static let RecipesDetailTableViewCell = "RecipesDetailTableViewCell"
+
     }
     
     

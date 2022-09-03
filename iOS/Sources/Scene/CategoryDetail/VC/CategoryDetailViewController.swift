@@ -157,6 +157,7 @@ final class CategoryDetailViewController: UIViewController {
     private func setCollectionView() {
         detailCategoryCollectionView.dataSource = self
         recipeCollectionView.dataSource = self
+        recipeCollectionView.delegate = self
     }
 }
 
@@ -200,7 +201,7 @@ extension CategoryDetailViewController {
     }
 }
 
-extension CategoryDetailViewController: UICollectionViewDataSource {
+extension CategoryDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == detailCategoryCollectionView {
             return detailCategories?.count ?? 0
@@ -234,6 +235,19 @@ extension CategoryDetailViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == recipeCollectionView {
+            let recipesDetailViewController = RecipesDetailViewController()
+            self.navigationController?.pushViewController(recipesDetailViewController, animated: true)
+            recipesDetailViewController.title = recipies?[indexPath.row].title
+            recipesDetailViewController.productName = recipies?[indexPath.row].productName ?? ""
+            recipesDetailViewController.detail = recipies?[indexPath.row].detail ?? ""
+            recipesDetailViewController.pictureURL = recipies?[indexPath.row].picUrl ?? ""
+            recipesDetailViewController.totalCount = recipies?[indexPath.row].totalCount ?? 0
+            recipesDetailViewController.timer = recipies?[indexPath.row].timer ?? []
+        }
+    }
+    
 }
 
 // MARK: - Network
@@ -285,11 +299,11 @@ extension CategoryDetailViewController {
                 case .success(let response):
                     print(response.data)
                     guard let data = try? JSONDecoder().decode([Recipes].self, from: response.data) else {
-                       fatalError()
+                        fatalError()
                     }
                     self?.recipies = data
                     self?.recipeCollectionView.reloadData()
-                  
+                    
                 case .failure(let error):
                     print(error)
                 }

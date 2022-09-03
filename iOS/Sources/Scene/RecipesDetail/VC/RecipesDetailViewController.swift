@@ -218,6 +218,7 @@ class RecipesDetailViewController: BaseViewController {
 }
 
 extension RecipesDetailViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return timer.count
     }
@@ -231,6 +232,5 @@ extension RecipesDetailViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.rowHeight
     }
-
 
 }
