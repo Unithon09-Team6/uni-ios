@@ -19,7 +19,7 @@ class RecipesDetailViewController: BaseViewController {
     private let navigationBarView = UIView()
     
     private let backButton = UIButton().then {
-        $0.backgroundColor = .white
+        $0.setImage(UNITHONTeam6IOSAsset.Assets.iconBack.image, for: .normal)
     }
     
     private let scrollView = UIScrollView().then {
@@ -50,7 +50,7 @@ class RecipesDetailViewController: BaseViewController {
     }
     
     private let totalCountImageView = UIImageView().then {
-        $0.backgroundColor = .categoryPinkLight
+        $0.image = UNITHONTeam6IOSAsset.Assets.iconClock.image
     }
     
     private let totalCountLabel = UILabel().then {
@@ -64,7 +64,7 @@ class RecipesDetailViewController: BaseViewController {
     }
     
     private let detailImageView = UIImageView().then {
-        $0.backgroundColor = .categoryPinkLight
+        $0.image = UNITHONTeam6IOSAsset.Assets.iconFood.image
     }
     private let detailTitleLabel = UILabel().then {
         $0.textColor = .colorF4F4F4
@@ -119,6 +119,16 @@ class RecipesDetailViewController: BaseViewController {
         contentView.addSubviews([imageView, titleLabel, productNameLabel, totalCountView, detailView, timerListLabel, timerListTableView])
         totalCountView.addSubviews([totalCountLabel, totalCountImageView])
         detailView.addSubviews([detailImageView, detailTitleLabel, detailContentLabel])
+    }
+    
+    override func bind() {
+        backButton.rx.tap
+            .withUnretained(self)
+            .subscribe { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
+
     }
     
     override func setupConstraints() {
@@ -211,7 +221,7 @@ class RecipesDetailViewController: BaseViewController {
         timerListTableView.snp.makeConstraints {
             $0.top.equalTo(timerListLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalTo(0)
-            $0.bottom.equalTo(-10)
+            $0.bottom.equalTo(-110)
         }
         timerListTableView.rowHeight = UITableView.automaticDimension
     }
