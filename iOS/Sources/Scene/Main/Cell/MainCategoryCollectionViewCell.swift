@@ -50,6 +50,9 @@ final class MainCategoryCollectionViewCell: UICollectionViewCell {
     
     func setData(mainCategory: MainCategory) {
         bgView.backgroundColor = mainCategory.color
+        self.descriptionLabel.text = mainCategory.description
+        self.titleLabel.text = mainCategory.name
+        self.foodImageView.image = mainCategory.image
     }
     
     private func setLayout() {
