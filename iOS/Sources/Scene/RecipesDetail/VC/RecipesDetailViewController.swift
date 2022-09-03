@@ -8,19 +8,13 @@
 
 import UIKit
 
-class RecipesDetailViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return RecipesDetailTableViewCell()
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-           return tableView.rowHeight
-       }
-
-
+class RecipesDetailViewController: BaseViewController {
+    var recipetitle = ""
+    var productName = ""
+    var pictureURL = ""
+    var detail = ""
+    var totalCount = 0
+    var timer: [timerList] = []
     
     private let navigationBarView = UIView()
     
@@ -92,6 +86,8 @@ class RecipesDetailViewController: BaseViewController, UITableViewDelegate, UITa
         $0.separatorStyle = .none
         $0.backgroundColor = .clear
         $0.isScrollEnabled = false
+        $0.register(RecipesDetailTableViewCell.self, forCellReuseIdentifier: Const.Identifier.RecipesDetailTableViewCell)
+
     }
     
     let startButton = UIButton().then {
@@ -106,12 +102,13 @@ class RecipesDetailViewController: BaseViewController, UITableViewDelegate, UITa
         view.backgroundColor = .backgroudNavy
         
         imageView.backgroundColor = .categoryPinkLight
-        titleLabel.text = "제목이 들어가요"
-        productNameLabel.text = "제품명이 들어가요"
-        totalCountLabel.text = "총 소요시간 00분"
+        titleLabel.text = title
+        productNameLabel.text = productName
+        totalCountLabel.text = "총 소요시간 \(totalCount)초"
         detailTitleLabel.text = "준비 재료 : "
         timerListLabel.text = "타이머 리스트"
-        detailContentLabel.text = "밥 2공기(400g), 배추김치 200g,\n스팸80g, 대파1/2대, 달걀 3개\n,김칫국물 2큰술, 간장 1큰술\n,참기름 1큰술, 고춧가루 1/2큰술\n,깨소름 1/2 큰술, 후춧가루 약간,\n김가루 약간, 식용류 적당량"
+        detailContentLabel.text = detail
+        imageView.image(url: pictureURL)
         
         timerListTableView.delegate = self
         timerListTableView.dataSource = self
@@ -218,4 +215,22 @@ class RecipesDetailViewController: BaseViewController, UITableViewDelegate, UITa
         }
         timerListTableView.rowHeight = UITableView.automaticDimension
     }
+}
+
+extension RecipesDetailViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return timer.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Const.Identifier.RecipesDetailTableViewCell, for: indexPath) as? RecipesDetailTableViewCell else { fatalError() }
+        cell.contentLabel.text = timer[indexPath.row].text
+        cell.timerLabel.text = "\(timer[indexPath.row].sec)초"
+        return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableView.rowHeight
+    }
+
+
 }
