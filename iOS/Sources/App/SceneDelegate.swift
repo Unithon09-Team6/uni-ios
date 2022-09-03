@@ -11,10 +11,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene)
-        let mainViewController = MainVC()
-        window?.rootViewController = mainViewController
-        window?.makeKeyAndVisible()
+                window = UIWindow(windowScene: windowScene)
+                let mainViewController = MainVC()
+                let naviMainViewController = UINavigationController(rootViewController: mainViewController)
+                naviMainViewController.navigationBar.isHidden = true
+                window?.rootViewController = naviMainViewController
+                window?.makeKeyAndVisible()
 
     }
 

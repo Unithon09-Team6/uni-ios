@@ -9,6 +9,6 @@
 import Foundation
 
 struct UNIURL {
-    static let baseURL = "15.165.160.154:3000"
+    static let baseURL = "http://15.165.160.154:3000"
 }
 

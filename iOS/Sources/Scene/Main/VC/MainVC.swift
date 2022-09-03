@@ -78,8 +78,6 @@ final class MainVC: UIViewController {
     
     private func bind() {
         collectionView.rx.itemSelected
-            .withUnretained(self)
-          //  .compactMap { $0 }
             .bind { _ in
                 self.navigationController?.pushViewController(CategoryDetailViewController(category: MainCategory(description: "한국인이라면 역시", name: "한식", image: UIImage(), color: .categoryPurpleLight)), animated: true)
             }
@@ -110,7 +108,7 @@ final class MainVC: UIViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchView.snp.bottom).offset(40)
             $0.leading.trailing.equalToSuperview().inset(21)
-            $0.height.equalTo(410)
+            $0.bottom.equalToSuperview()
         }
           
         searchLabel.snp.makeConstraints {
