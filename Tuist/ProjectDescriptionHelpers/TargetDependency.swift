@@ -12,8 +12,6 @@ public extension TargetDependency.SPM {
     static let SnapKit = TargetDependency.package(product: "SnapKit")
     static let DropDown = TargetDependency.package(product: "DropDown")
     static let Kingfisher = TargetDependency.package(product: "Kingfisher")
-    static let IQKeyboardManager = TargetDependency.package(product: "IQKeyboardManager")
-
 }
 
 public extension Package {
@@ -40,9 +38,5 @@ public extension Package {
     static let Kingfisher = Package.remote(
         url: "https://github.com/onevcat/Kingfisher",
         requirement: .upToNextMajor(from: "7.2.4")
-    )
-    static let IQKeyboardManager = Package.remote(
-        url: "https://github.com/hackiftekhar/IQKeyboardManager.git",
-        requirement: .upToNextMajor(from: "6.5.0")
     )
 }

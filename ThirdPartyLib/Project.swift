@@ -10,7 +10,6 @@ let project = Project.dynamicFramework(
         .SnapKit,
         .DropDown,
         .Kingfisher,
-        .IQKeyboardManager
     ],
     deploymentTarget: .iOS(targetVersion: "14.0", devices: [.iphone, .ipad]),
     dependencies: [
@@ -21,6 +20,5 @@ let project = Project.dynamicFramework(
         .SPM.SnapKit,
         .SPM.DropDown,
         .SPM.Kingfisher,
-        .SPM.IQKeyboardManager
     ]
 )
