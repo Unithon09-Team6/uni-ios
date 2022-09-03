@@ -18,6 +18,7 @@ final class CategoryDetailViewController: UIViewController {
     
     var detailCategories = ["전체", "메인요리", "국/찌개", "반찬"]
     var selected: Int = 0
+    var recipies: ResponseSearch?
     
     // MARK: - Components
     
@@ -73,21 +74,8 @@ final class CategoryDetailViewController: UIViewController {
         setUI()
         setLayout()
         setCollectionView()
+        getAllCategory(category: 0)
         
-        API.searchCategoryRecipes("0", "").request()
-            .subscribe { event in
-                switch event {
-                case .success(let response):
-                    print(response.data)
-                    guard let data = try? JSONDecoder().decode(ResponseSearch.self, from: response.data) else {
-                        return
-                    }
-                    print(data)
-                case .failure(let error):
-                    print(error)
-                }
-            }
-            .disposed(by: disposeBag)
     }
     
     // MARK: - Function
@@ -203,7 +191,7 @@ extension CategoryDetailViewController: UICollectionViewDataSource {
             return detailCategories.count
         }
         else if collectionView == recipeCollectionView {
-            return 10
+            return recipies?.list.count ?? 0
         }
         else {
             return 0
@@ -219,11 +207,38 @@ extension CategoryDetailViewController: UICollectionViewDataSource {
         }
         else if collectionView == recipeCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Const.Identifier.RecipeCollectionViewCell, for: indexPath) as? RecipeCollectionViewCell else { fatalError() }
-            cell.setData()
+            if let recipies = recipies {
+                cell.setData(recipe: recipies.list[indexPath.item])
+            }
+           
             return cell
         }
         else {
             return UICollectionViewCell()
         }
+    }
+}
+
+// MARK: - Network
+
+extension CategoryDetailViewController {
+    
+    private func getAllCategory(category: Int) {
+        API.searchCategoryRecipes("\(category)", "").request()
+            .subscribe { [weak self] event in
+                switch event {
+                case .success(let response):
+                    print(response.data)
+                    guard let data = try? JSONDecoder().decode(ResponseSearch.self, from: response.data) else {
+                        fatalError()
+                    }
+                    print("data", data)
+                    self?.recipies = data
+                    self?.recipeCollectionView.reloadData()
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }

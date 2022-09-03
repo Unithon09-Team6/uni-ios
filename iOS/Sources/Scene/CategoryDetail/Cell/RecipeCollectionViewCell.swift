@@ -57,9 +57,11 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setData() {
-        titleLabel.text = "김치볶음밥"
-        descriptionLabel.text = "눈과 입 모두 만족시켜주는"
+    func setData(recipe: Recipes) {
+        titleLabel.text = recipe.title
+        descriptionLabel.text = recipe.detail
+        recipeImageView.image(url: recipe.picUrl)
+        totalTimerLabel.text = "\(recipe.totalCount)"
     }
     
     private func setLayout() {
