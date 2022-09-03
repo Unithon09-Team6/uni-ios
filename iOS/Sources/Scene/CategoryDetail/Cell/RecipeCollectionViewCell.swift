@@ -33,6 +33,20 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
         $0.font = PretendardFont.bold.font(size: 15)
     }
     
+    private let timerImageView = UIImageView().then {
+        $0.backgroundColor = .categoryPinkLight
+    }
+    
+    private let totalTimerLabel = UILabel().then {
+        $0.textColor = .white
+        $0.text = "zz"
+        $0.font = PretendardFont.semiBold.font(size: 12)
+    }
+    
+    private let timerStackView = UIStackView().then {
+        $0.distribution = .fill
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -51,7 +65,7 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
     private func setLayout() {
         
         self.addSubviews([bgView])
-        bgView.addSubviews([recipeImageView, descriptionLabel, titleLabel])
+        bgView.addSubviews([recipeImageView, descriptionLabel, titleLabel, timerStackView])
         
         bgView.snp.makeConstraints {
             $0.top.leading.bottom.trailing.equalToSuperview()
@@ -70,6 +84,18 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(5)
             $0.leading.trailing.equalToSuperview().inset(12)
+        }
+        
+        timerStackView.addArrangedSubview(timerImageView)
+        timerStackView.addArrangedSubview(totalTimerLabel)
+        timerImageView.snp.makeConstraints {
+            $0.width.height.equalTo(22)
+            $0.leading.equalToSuperview()
+        }
+        
+        timerStackView.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(12)
+            $0.bottom.equalToSuperview().inset(16)
         }
     }
     
