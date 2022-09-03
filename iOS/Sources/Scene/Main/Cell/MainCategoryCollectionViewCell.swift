@@ -20,13 +20,11 @@ final class MainCategoryCollectionViewCell: UICollectionViewCell {
     
     private let descriptionLabel = UILabel().then {
         $0.textColor = .white
-        $0.text = "description"
         $0.font = UNITHONTeam6IOSFontFamily.Pretendard.semiBold.font(size: 13)
     }
     
     private let titleLabel = UILabel().then {
         $0.textColor = .white
-        $0.text = "한식"
         $0.font = UNITHONTeam6IOSFontFamily.Pretendard.bold.font(size: 22)
     }
     

@@ -19,9 +19,10 @@ final class MainVC: UIViewController {
                     MainCategory(description: "내 손안의 이자카야", name: "일식", image: UIImage(), color: .categoryBlueLight)]
     
     private let titleLabel = UILabel().then {
-        $0.text = "오늘도\n실패하지않는 레시피"
+        $0.text = "오늘도\n실패하지않는 레시피 ✌🏻"
         $0.numberOfLines = 2
         $0.textColor = .white
+        $0.setLineSpacing(lineSpacing: 6)
         $0.font = UNITHONTeam6IOSFontFamily.Pretendard.bold.font(size: 26)
     }
     
@@ -30,7 +31,7 @@ final class MainVC: UIViewController {
         $0.backgroundColor = .searchBarBackgroudNavy
     }
     
-    private let searchLabel = UILabel().then {
+    private var searchLabel = UILabel().then {
         $0.text = "원하는 메뉴를 검색해주세요"
         $0.textColor = .gray9A97A0
         $0.font = UNITHONTeam6IOSFontFamily.Pretendard.medium.font(size: 14)
@@ -84,7 +85,7 @@ final class MainVC: UIViewController {
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchView.snp.bottom).offset(40)
-            $0.leading.trailing.equalToSuperview().inset(32)
+            $0.leading.trailing.equalToSuperview().inset(21)
             $0.height.equalTo(410)
         }
           
