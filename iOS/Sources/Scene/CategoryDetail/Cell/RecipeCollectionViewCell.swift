@@ -39,7 +39,6 @@ final class RecipeCollectionViewCell: UICollectionViewCell {
     
     private let totalTimerLabel = UILabel().then {
         $0.textColor = .white
-        $0.text = "zz"
         $0.font = PretendardFont.semiBold.font(size: 12)
     }
     
