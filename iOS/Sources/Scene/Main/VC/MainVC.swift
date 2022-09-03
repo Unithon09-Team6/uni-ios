@@ -134,7 +134,8 @@ extension MainVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Const.Identifier.MainCategoryCollectionViewCell, for: indexPath) as? MainCategoryCollectionViewCell else { fatalError() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Const.Identifier.MainCategoryCollectionViewCell,
+                                                            for: indexPath) as? MainCategoryCollectionViewCell else { fatalError() }
         cell.setData(mainCategory: mainCategories[indexPath.item])
         return cell
     }

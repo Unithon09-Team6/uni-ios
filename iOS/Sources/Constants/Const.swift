@@ -7,5 +7,8 @@
 //
 
 import Foundation
+import RxSwift
 
-struct Const {}
+struct Const {
+    static let disposeBag = DisposeBag()
+}
