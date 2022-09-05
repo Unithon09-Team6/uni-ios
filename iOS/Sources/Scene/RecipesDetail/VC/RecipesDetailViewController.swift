@@ -246,14 +246,15 @@ extension RecipesDetailViewController: UITableViewDelegate, UITableViewDataSourc
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Const.Identifier.RecipesDetailTableViewCell, for: indexPath) as? RecipesDetailTableViewCell else { fatalError() }
         cell.contentLabel.text = timer[indexPath.row].text
         if timer[indexPath.row].sec % 3600 / 60 == 0  && timer[indexPath.row].sec % 3600 % 60 == 0 {
-            cell.timerLabel.text = "0:00"
+            cell.timerLabel.text = "00:00"
         }
         else if timer[indexPath.row].sec % 3600 / 60 == 0 {
-            cell.timerLabel.text = "0:\((timer[indexPath.row].sec % 3600) % 60)"
+            cell.timerLabel.text = String(format: "00:%02d", (timer[indexPath.row].sec % 3600) % 60)
         } else if timer[indexPath.row].sec % 3600 % 60 == 0 {
-            cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) / 60):00"
+            cell.timerLabel.text = String(format: "%02d:00", ((timer[indexPath.row].sec % 3600) / 60))
         } else {
-            cell.timerLabel.text = "\((timer[indexPath.row].sec % 3600) / 60): \((timer[indexPath.row].sec % 3600) % 60)"
+            cell.timerLabel.text = String(format: "%02d:%02d", ((timer[indexPath.row].sec % 3600) / 60), (timer[indexPath.row].sec % 3600) % 60)
+         //   "\((timer[indexPath.row].sec % 3600) / 60): \((timer[indexPath.row].sec % 3600) % 60)"
         }
         //        (timer[indexPath.row].sec % 3600) / 60, (timer[indexPath.row].sec % 3600) % 60)
         return cell

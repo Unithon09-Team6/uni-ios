@@ -51,6 +51,7 @@ class TimerViewController: BaseViewController {
     
     private let clockImageView = UIImageView().then {
         $0.image = UNITHONTeam6IOSAsset.Assets.iconTimer.image
+        $0.contentMode = .scaleAspectFill
     }
     private let timerLabel = UILabel().then {
         $0.textColor = .white
@@ -123,6 +124,9 @@ class TimerViewController: BaseViewController {
             } else {
                 if self.timer[nowNumber].sec == 0 {
                     self.timerLabel.text = "정해진 조리시간이 없어요\n조리가 끝났으면 넘어가주세요!"
+                    self.timerLabel.setLineSpacing(lineSpacing: 8)
+                    self.timerLabel.textAlignment = .center
+                    self.timerLabel.sizeToFit()
                     self.timerLabel.font = PretendardFont.semiBold.font(size: 18)
                     self.timerLabel.numberOfLines = 2
                     self.clockImageView.image = UNITHONTeam6IOSAsset.Assets.iconMegaphone.image
@@ -178,24 +182,27 @@ class TimerViewController: BaseViewController {
         timerBackView.snp.makeConstraints {
             $0.centerX.equalTo(view)
             $0.centerY.equalTo(view).offset(10)
-            $0.height.equalTo(217)
+            $0.height.equalTo(222)
             $0.width.equalTo(245)
         }
         
         clockImageView.snp.makeConstraints {
-            $0.leading.trailing.equalTo(0).inset(30)
+          //  $0.leading.trailing.equalTo(0).inset(30)
+            $0.centerX.equalToSuperview()
+            $0.width.height.equalTo(140)
             $0.top.equalTo(0)
         }
         
         timerLabel.snp.makeConstraints {
-            $0.height.equalTo(48)
+           // $0.height.equalTo(48)
+            $0.top.equalTo(clockImageView.snp.bottom).offset(50)
             $0.leading.trailing.equalTo(0)
-            $0.bottom.equalTo(0)
+         //   $0.bottom.equalTo(0)
         }
         
         nextButton.snp.makeConstraints {
             $0.centerX.equalTo(view)
-            $0.top.equalTo(timerBackView.snp.bottom).offset(60)
+            $0.top.equalTo(timerBackView.snp.bottom).offset(68)
             $0.width.height.equalTo(60)
         }
         
